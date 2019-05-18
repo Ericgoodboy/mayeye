@@ -16,6 +16,7 @@ class Request(object):
             self.httpVersion = reqLine[2]
             self.body = requestString.split("\r\n\r\n")[1]
             self.args = {}
+            self.session = None
             for i in arr[1:-2]:
                 att = i.split(":")
                 k=att[0].strip().lstrip().lower()

@@ -2,7 +2,7 @@ from mayeye.Response import Response
 from mayeye.Request import Request
 
 
-def api(req:Request)->Response:
-    res =Response()
+def api(req:Request,res:Response):
     res.body="{hello}"
-    return res
+    res.send()
+    return -1

@@ -4,13 +4,15 @@ import os
 import mime
 from mayeye import util
 from socket import socket
+
 class Response():
     def __init__(self,conn:socket = None):
         self.conn = conn
+        self.sended = False
         self.contentType = 'text/html'
         self.httpVersion = "HTTP/1.1"
         self.statusCode = 200
-        self.date =self._getFormatTime()
+        self.date =util.getTimeString()
         self.body = "<h1>helloWord</h1>"
         self.file = b''
         self.headers={
@@ -19,12 +21,9 @@ class Response():
         self.cookie = {
             "add":100
         }
-    def _getFormatTime(self):
-        s = time.asctime()
-        # a = s.split(" ")
-        # d = (a[0],a[3],a[1],a[5],a[4])
-        return s
-    def encodeStr(self,encoding='utf-8')->bytearray:
+
+
+    def encodeStr(self,encoding='utf-8')->bytes:
         GMT_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
         headers=""
         for i in self.headers:
@@ -41,6 +40,41 @@ class Response():
 
     def addCookie(self,k,v):
         self.cookie.update({k:v})
+    def send(self):
+        if self.sended:
+            print("---------Waring")
+        else:
+            data = self.encodeStr()
+            self.conn.send(data)
+            self.conn.close()
+            self.sended = True
+    def make404Response(self):
+        self.body = '<h1>404 not found</h1>'
+        self.statusCode = 404
+        return self
+    def makeFileResponse(self,path,contentType):
+        data = b''
+        if os.path.isfile(path):
+            with open(path, 'rb') as f:
+                while True:
+                    d = f.read(1024)
+                    if d:
+                        data += d
+                    else:
+                        break
+
+            self.body = ''
+            self.file = data
+            self.contentType = contentType
+            self.send()
+
+    def makeStaticResponse(self,suburl):
+        paths = [os.path.join(i, suburl) for i in config.staticPath]
+        for path in paths:
+            if os.path.isfile(path):
+                contentType = mime.Types.of(path)[0].content_type
+                self.makeFileResponse(path, contentType)
+
     @classmethod
     def create404Response(cls):
         res = Response()
