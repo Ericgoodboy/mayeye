@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body{
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background: #000;
+        }
+        canvas{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+</body>
+<script>
+    function project3D(x,y,z,vars) {
+        var p,d;
+        x -=vars.camX;
+        y -=vars.camY-8;
+        z -=vars.camZ;
+        p=Math.atan2(x,z);
+        d=Math.sqrt(x*x+z*z);
+        x = Math.sin(p - vars.yaw)*d
+        z = Math.cos(p - vars.yaw)*d
+        p = Math.atan2(y,z)
+        d = Math.sqrt(y*y+z*z)
+        y = Math.sin(p - vars.pitch)*d
+        z = Math.cos(p - vars.pitch)*d
+        var rx1 = -1000;
+        var ry1 = 1;
+        var rx2 = 1000;
+        var ry2 = 1;
+        var rx3 = 0,ry3=0;
+        var rx4 = x;
+        var ry4 = z;
+        var uc = (ry4 - ry3)*(rx2-rx1)-(rx4-rx3)*(ry2 - ry1)
+        //var ua = (rx4 - rx3)*()
+    }
+</script>
+</html>

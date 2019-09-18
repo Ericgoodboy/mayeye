@@ -1,4 +1,5 @@
 from mayeye.util import log
+from urllib.parse import urlparse
 class Request(object):
     def __init__(self,data):
         try:
@@ -11,9 +12,25 @@ class Request(object):
             if len(reqLine) <= 1:
                 self.code = -1
                 return
+            self.query = {}
             self.method = reqLine[0]
-            self.path = reqLine[1]
+            self.path = reqLine[1].split("?")[0]
             self.httpVersion = reqLine[2]
+            if len(reqLine[1].split("?"))>1:
+                queryData = reqLine[1].split("?")[1]
+                for q in queryData.split("&"):
+                    d = q.split("=")
+                    k = d[0]
+                    k = k.lsplit()
+                    k = k.split()
+                    k = k.lsplit("'")
+                    k = k.split("'")
+                    k = k.lsplit("\"")
+                    k = k.split("\"'")
+                    v = ''.join(d[1:])
+                    # if k in self.query:
+                    self.query[k]=v
+
             self.body = requestString.split("\r\n\r\n")[1]
             self.args = {}
             self.session = None

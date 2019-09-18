@@ -51,7 +51,7 @@ class Response():
     def make404Response(self):
         self.body = '<h1>404 not found</h1>'
         self.statusCode = 404
-        return self
+        return self.send()
     def makeFileResponse(self,path,contentType):
         data = b''
         if os.path.isfile(path):
@@ -108,3 +108,8 @@ class Response():
                 contentType = mime.Types.of(path)[0].content_type
                 return Response.createFileResponse(path,contentType)
         return -1
+
+
+if __name__ == '__main__':
+    res =Response()
+    print(res.encodeStr().decode(encoding='utf8'))

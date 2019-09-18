@@ -3,7 +3,8 @@ from mayeye import views
 
 
 urls = {
-    "api":views.api
+    "api":views.api,
+    "desktop":views.deskTop
 }
 
 

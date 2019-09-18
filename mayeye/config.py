@@ -4,7 +4,7 @@ from mayeye.middlewares import SessionMiddleWare
 import pymysql
 #from mayeye.Models import Session
 #staticPath = [os.path.abspath("F:/2018/code/vue")]
-staticPath = [os.path.abspath("../static")]
+staticPath = [os.path.abspath("../static"),os.path.abspath("../temp")]
 
 sessionTime = 60*60*3#3小时
 debug = True

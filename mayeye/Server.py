@@ -7,7 +7,7 @@ from mayeye.urls import urls
 from mayeye.util import log
 from mayeye import config
 class HttpServer(object):
-    def __init__(self,ip_port=("127.0.0.1", 8080)):
+    def __init__(self,ip_port=("0.0.0.0", 80)):
         self.back_log = 5  # 连接池
         self.server = socket(AF_INET, SOCK_STREAM)
         self.server.bind(ip_port)
